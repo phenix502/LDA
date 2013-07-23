@@ -1,0 +1,16 @@
+{
+    "contents" : "# 获取数据\ninstall.packages(\"corpus.JSS.papers\",repos = \"http://datacube.wu.ac.at/\",\n                 type = \"source\")\ndata(\"JSS_papers\", package = \"corpus.JSS.papers\")\n\nset.seed(1102)\nlibrary(\"tm\")\nlibrary(\"topicmodels\")\nlibrary(\"XML\")\n\n\nremove_HTML_markup <- function(s) {\n  doc <- htmlTreeParse(s, asText = TRUE, trim = FALSE)\n  iconv(xmlValue(xmlRoot(doc)), \"\", \"UTF-8\")\n}\n\ncorpus <- Corpus(VectorSource(sapply(JSS_papers[, \"description\"],\n                                     remove_HTML_markup)))\n\ndtm <- DocumentTermMatrix(corpus,control = list(stemming = TRUE, stopwords = TRUE, minWordLength = 3,\n                                                removeNumbers = TRUE))\n\ndtm <- removeSparseTerms(dtm, 0.99)\ndim(dtm)\n\njss_LDA <- LDA(dtm[1:250,],control = list(alpha = 0.1), k = 10)\njss_CTM <- CTM(dtm[1:250], k = 10)\n\npost <- posterior(jss_LDA, newdata = dtm[-c(1:250),])\nround(post$topics[1:5,],digits = 2)\nget_terms(jss_LDA, 5)\n\n\n",
+    "created" : 1371475207160.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2551397630",
+    "id" : "92D03DA9",
+    "lastKnownWriteTime" : 1371709210,
+    "path" : "~/code/Rpractice/jss.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

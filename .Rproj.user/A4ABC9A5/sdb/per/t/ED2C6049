@@ -1,0 +1,16 @@
+{
+    "contents" : "library(Rwordseg)\n## 本函数主要是读取文档，然后对文档进行分词。\n\nfor (i in 1:400){\n  file.path <- paste(\"~/code/jss/clothe/\", i, \".txt\", sep = \"\")\n  txt <- readLines(file.path, encoding = 'utf-8')\n  ## 去掉空白行\n  txt = txt[txt!=\" \"]\n  ## 分词\n  words = unlist(lapply(txt,segmentCN))\n  \n  file.save <- paste(\"corpus/\", i, \".txt\", sep = \"\")\n  write.table(words, file.save, fileEncoding = 'utf-8')\n}",
+    "created" : 1371708228810.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2439561119",
+    "id" : "ED2C6049",
+    "lastKnownWriteTime" : 1371728056,
+    "path" : "~/code/jss/segword.r",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
